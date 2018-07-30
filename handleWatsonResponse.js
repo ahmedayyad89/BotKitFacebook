@@ -19,7 +19,7 @@ var request = require('request');
 module.exports = function () {
     return {
         "handleWatsonResponse": function (bot, facebookMessage, message) {
-            console.log(message.output);
+            console.log(message);
             
          
                 if (message.output) {
