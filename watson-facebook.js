@@ -29,6 +29,7 @@ var assistant = new AssistantV1({
 var controller = Botkit.facebookbot({
     debug: true,
     log: true,
+    hostname: process.env.OPENSHIFT_NODEJS_IP,
     access_token: process.env.FACEBOOK_PAGE_TOKEN,
     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
     app_secret: process.env.FACEBOOK_APP_SECRET,
@@ -38,7 +39,7 @@ var controller = Botkit.facebookbot({
 var bot = controller.spawn({
 });
 
-controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
+controller.setupWebserver(process.env.OPENSHIFT_NODEJS_PORT || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
     });
 });
