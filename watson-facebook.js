@@ -18,11 +18,12 @@ var Botkit = require('botkit');
 require('dotenv').load();
 var sharedCode = require('./handleWatsonResponse.js')();
 
-var middleware = require('botkit-middleware-watson')({
-    username: process.env.CONVERSATION_USERNAME,
-    password: process.env.CONVERSATION_PASSWORD,
-    workspace_id: process.env.WORKSPACE_ID,
-    version_date: '2016-09-20'
+var AssistantV1 = require('watson-developer-cloud/assistant/v1');
+
+var assistant = new AssistantV1({
+    url: process.env.ASSISTANT_URL,
+    iam_apikey: process.env.ASSISTANT_IAM_APIKEY,
+  version: '2018-02-16'
 });
 
 var controller = Botkit.facebookbot({
@@ -46,12 +47,21 @@ controller.api.messenger_profile.greeting('Hello');
 controller.api.messenger_profile.get_started('Hello');
 
 controller.on('message_received', function (bot, message) {
-    middleware.interpret(bot, message, function (err) {
-        if (!err) {
-            sharedCode.handleWatsonResponse(bot, message, 'facebook');
-        }
-        else {            
+    console.log(message);
+    assistant.message(
+        {
+          input: { text: message.text },
+          workspace_id: process.env.WORKSPACE_ID
+        },
+        function(err, response) {
+          if (err) {
+            console.error(err);
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
+          } else {
+           
+            sharedCode.handleWatsonResponse(bot, message, response);
+          }
         }
-    });
+      );
+   
 });
