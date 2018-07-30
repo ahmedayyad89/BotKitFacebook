@@ -49,12 +49,12 @@ controller.api.messenger_profile.get_started('Hello');
 var conversations = [];
 controller.on('message_received', function (bot, message) {
     console.log(message);
-    if(conversation[message.user]){
+if(conversations[message.user]){
       assistant.message(
         {
           input: { text: message.text },
           workspace_id: process.env.WORKSPACE_ID,
-          context: {conversation_id: conversation[message.user]}
+          context: {conversation_id: conversations[message.user]}
         },
         function(err, response) {
           if (err) {
