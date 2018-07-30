@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 
 var Botkit = require('botkit');
-require('dotenv').load();
+// require('dotenv').load();
 var sharedCode = require('./handleWatsonResponse.js')();
 
 var AssistantV1 = require('watson-developer-cloud/assistant/v1');
