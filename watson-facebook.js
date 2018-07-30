@@ -15,11 +15,11 @@
 //------------------------------------------------------------------------------
 
 var Botkit = require('botkit');
-// require('dotenv').load();
+require('dotenv').load();
 var sharedCode = require('./handleWatsonResponse.js')();
 
 var AssistantV1 = require('watson-developer-cloud/assistant/v1');
-
+console.log('process.env.ASSISTANT_IAM_APIKEY:'+process.env.ASSISTANT_IAM_APIKEY);
 var assistant = new AssistantV1({
     url: process.env.ASSISTANT_URL,
     iam_apikey: process.env.ASSISTANT_IAM_APIKEY,
