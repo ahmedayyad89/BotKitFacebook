@@ -29,7 +29,7 @@ var assistant = new AssistantV1({
 var controller = Botkit.facebookbot({
     debug: true,
     log: true,
-    hostname: process.env.OPENSHIFT_NODEJS_IP,
+    hostname: process.env.ORANGE_PIZZA_SERVICE_HOST,
     access_token: process.env.FACEBOOK_PAGE_TOKEN,
     verify_token: process.env.FACEBOOK_VERIFY_TOKEN,
     app_secret: process.env.FACEBOOK_APP_SECRET,
