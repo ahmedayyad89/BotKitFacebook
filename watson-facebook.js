@@ -54,7 +54,7 @@ if(conversations[message.user]){
         {
           input: { text: message.text },
           workspace_id: process.env.WORKSPACE_ID,
-          context: {conversation_id: conversations[message.user]}
+          context:  conversations[message.user]
         },
         function(err, response) {
           if (err) {
@@ -76,7 +76,7 @@ if(conversations[message.user]){
             console.error(err);
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
           } else {
-           conversations[message.user] = response.context.conversation_id;
+           conversations[message.user] = response.context;
             sharedCode.handleWatsonResponse(bot, message, response);
           }
         }
