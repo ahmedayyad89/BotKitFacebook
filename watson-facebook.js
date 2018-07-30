@@ -49,11 +49,27 @@ controller.api.messenger_profile.get_started('Hello');
 var conversations = [];
 controller.on('message_received', function (bot, message) {
     console.log(message);
-    assistant.message(
+    if(conversation[message.user]){
+      assistant.message(
         {
           input: { text: message.text },
           workspace_id: process.env.WORKSPACE_ID,
           context: {conversation_id: conversation[message.user]}
+        },
+        function(err, response) {
+          if (err) {
+            console.error(err);
+            bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
+          } else {
+            sharedCode.handleWatsonResponse(bot, message, response);
+          }
+        }
+      );
+    }else{
+      assistant.message(
+        {
+          input: { text: message.text },
+          workspace_id: process.env.WORKSPACE_ID
         },
         function(err, response) {
           if (err) {
@@ -65,5 +81,7 @@ controller.on('message_received', function (bot, message) {
           }
         }
       );
+    }
+    
    
 });
