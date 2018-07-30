@@ -46,20 +46,21 @@ controller.setupWebserver(process.env.OPENSHIFT_NODEJS_PORT || 3000, function(er
 
 controller.api.messenger_profile.greeting('Hello');
 controller.api.messenger_profile.get_started('Hello');
-
+var conversations = [];
 controller.on('message_received', function (bot, message) {
     console.log(message);
     assistant.message(
         {
           input: { text: message.text },
-          workspace_id: process.env.WORKSPACE_ID
+          workspace_id: process.env.WORKSPACE_ID,
+          context: {conversation_id: conversation[message.user]}
         },
         function(err, response) {
           if (err) {
             console.error(err);
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
           } else {
-           
+           conversation[message.user] = response.context.conversation_id;
             sharedCode.handleWatsonResponse(bot, message, response);
           }
         }
