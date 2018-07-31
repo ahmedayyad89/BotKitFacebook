@@ -61,6 +61,7 @@ if(conversations[message.user]){
             console.error(err);
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
           } else {
+            conversations[message.user] = response.context;
             sharedCode.handleWatsonResponse(bot, message, response);
           }
         }
